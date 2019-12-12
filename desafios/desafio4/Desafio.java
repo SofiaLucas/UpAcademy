@@ -22,7 +22,7 @@ public class Desafio {
 		
 			if (newString[i].matches("^[0-9]*$")){
 					
-				finalArr.add(newSringi[i]);
+				finalArr.add(newSring[i]);
 					
 					//Character.isDigit(newString[i]);
 								
