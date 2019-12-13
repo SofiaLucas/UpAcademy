@@ -9,8 +9,8 @@ import repositories.ShelfRepository;
 
 public class TextInterface {
 	ScannerUtils sc = new ScannerUtils();
-	ProductRepository pdb = pdb.getInstance();
-	ShelfRepository sdb = sdb.getInstance();
+	ProductRepository pdb = ProductRepository.getInstance();
+	ShelfRepository sdb = ShelfRepository.getInstance();
 	
 	public void showMainMenu() {
 
