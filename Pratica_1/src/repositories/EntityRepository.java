@@ -26,32 +26,27 @@ public abstract class EntityRepository<T extends Entity> {
 
 	public void remove(T entity) {
 		myMap.remove(entity.getId(), entity);
-
 	}
 
 	public boolean isEmpty() {
 		return (myMap.size() == 0) ? true : false;
-
 	}
 
 	public Collection<T> getAll() {
 		return myMap.values();
 	}
-	
-	
+
 	public T getbyId(Long selectedId) {
 		return myMap.get(selectedId);
 	}
-	
-	
+
 	public Collection<Long> getAllIds() {
 		return myMap.keySet();
 	}
 
-	
-	public void edit (T entity) {
-		 myMap.replace(entity.getId(), entity);
-		
+	public void edit(T entity) {
+		myMap.replace(entity.getId(), entity);
+
 	}
 //	public void printAll() {
 //		Iterator<T> TIterator = getAll().iterator();
