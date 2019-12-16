@@ -1,5 +1,6 @@
 package io.altar.jseproject.textinterface.ScannerUtils;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ScannerUtils {
@@ -138,7 +139,7 @@ public class ScannerUtils {
 					}
 				}
 				if (check == false) {
-					System.out.println("Select a valid option" + iva);
+					System.out.println("Selecione uma opcao valida" + Arrays.toString(iva));
 				}
 			}
 		}

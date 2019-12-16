@@ -40,7 +40,8 @@ public class TextInterface {
 
 	public void showProductsMenu() {
 		System.out.println("Seleccionou a opcao 1) 'Listar produtos'; Estes sao os produtos atualmente existentes: \n");
-		// Os campos a apresentar s�o � sua escolha, sendo apenas o campo ID origat�rio.
+		// Os campos a apresentar s�o � sua escolha, sendo apenas o campo ID
+		// origat�rio.
 		System.out.println(productsDataBase.getAll());
 
 		System.out.println("\n Por favor selecione uma das seguintes opcoes:\n" + "\t 1) Criar novo produto\n"
@@ -87,7 +88,7 @@ public class TextInterface {
 			System.out.println("1) Criar novo prateleira:");
 
 			int shelfCapacity = sc.getInt("Capacidade:");
-			float shelfDailyPrice = sc.getFloat("Pre�o diario:");
+			float shelfDailyPrice = sc.getFloat("Preco diario:");
 			Shelf newShelf = new Shelf(shelfCapacity, shelfDailyPrice);
 			shelvesDataBase.create(newShelf);
 			System.out.println("Esta foi a prateleira criada: \n");
@@ -183,24 +184,19 @@ public class TextInterface {
 		int number = sc.getValidInt("Select a number between ", 1, 5);
 		switch (number) {
 		case 1:
-			System.out.println("Selecione o id da prateleira onde pretende inserir o produto");
-
-			long shelfIdSelected = selectEmptyShelvesIds();
-
-			// criar condicao se nao houver prateleiras vazias
-
-			Shelf shelfSelected = shelvesDataBase.getbyId(shelfIdSelected);
-			shelfSelected.setProductId(productToEdit.getId());
-			productToEdit.addShelfId(shelfSelected.getId());
-						
-			// ver se é preciso isto:
-			shelvesDataBase.edit(shelfSelected);
-			productsDataBase.edit(productToEdit);
 			
-			System.out.println(productToEdit);
-			System.out.println(shelfSelected);
+			long shelfIdSelected = selectEmptyShelvesIds();
+			
+			// tentar que o utilizador possa escolher varios ids ao mesmo tempo
+			if (shelfIdSelected != -1) {
+				Shelf shelfSelected = shelvesDataBase.getbyId(shelfIdSelected);
+				shelfSelected.setProductId(productToEdit.getId());
+				productToEdit.addShelfId(shelfSelected.getId());
 
-///// falta!!!!!!
+				shelvesDataBase.edit(shelfSelected);
+				productsDataBase.edit(productToEdit);
+
+			}
 
 			break;
 		case 2:
@@ -241,16 +237,14 @@ public class TextInterface {
 	}
 
 	public void removeProduct() {
-
-		// garantir que o produto é removido das shelves
 		int number = 0;
 		do {
 			System.out.println("Selecione o id do produto que pretende remover");
 			long idToRemove = selectId(productsDataBase);
 			Product productToRemove = productsDataBase.getbyId(idToRemove);
 			productsDataBase.remove(productToRemove);
-			System.out.println("O produto foi removido");
-
+			removeProductFromShelf(idToRemove);
+				
 			if (productsDataBase.isEmpty() == false) {
 				System.out.println(
 						"Pretende remover mais algum produto?" + "1) Sim\n" + "2) Nao (volta ao menu inicial)\n");
@@ -269,43 +263,58 @@ public class TextInterface {
 
 	public long selectId(EntityRepository dataBase) {
 		Object[] objectArray = dataBase.getAllIds().toArray();
-		Long[] idArr = new Long[objectArray.length];
+		long[] idArr = new long[objectArray.length];
 		for (int i = 0; i < objectArray.length; i++) {
 			idArr[i] = (long) objectArray[i];
 		}
-
-		long selectedId = sc.getValidLong("", idArr[0], idArr[idArr.length - 1]);
+		
+		long selectedId = sc.getValidLong("Ids disponiveis:" + Arrays.toString(idArr), idArr);
 		return selectedId;
 
 	}
 
-	
-
 	public long selectEmptyShelvesIds() {
 
-		Collection<Shelf> allShelves = shelvesDataBase.getAll();	
+		Collection<Shelf> allShelves = shelvesDataBase.getAll();
 		Iterator<Shelf> iterator = allShelves.iterator();
 		List<Long> emptyShelvesIds = new ArrayList<Long>();
-		
+
 		while (iterator.hasNext()) {
 			Shelf shelf = (Shelf) iterator.next();
-						
-			if (shelf.getProductId()==0) {
+			if (shelf.getProductId() == 0) {
 				emptyShelvesIds.add(shelf.getId());
 			}
-			
 		}
-				
-			
+
 		final long[] emptyShelvesIdsArr = new long[emptyShelvesIds.size()];
 		int index = 0;
 		for (final Long value : emptyShelvesIds) {
 			emptyShelvesIdsArr[index++] = value;
 		}
 
-		long selectedId = sc.getValidLong("Id das prateleiras disponiveis: " + Arrays.toString(emptyShelvesIdsArr), emptyShelvesIdsArr);
-		return selectedId;
-
+		if (emptyShelvesIdsArr.length == 0) {
+			System.out.println("Nao ha mais prateleiras disponiveis");
+			return -1;
+		} else {
+			System.out.println("Selecione o id da prateleira onde pretende inserir o produto");
+			long selectedId = sc.getValidLong("Id das prateleiras disponiveis: " + Arrays.toString(emptyShelvesIdsArr),
+					emptyShelvesIdsArr);
+			return selectedId;
+		}
+	}
+	
+	public void removeProductFromShelf(long id) {
+	Collection<Shelf> allShelves = shelvesDataBase.getAll();
+	Iterator<Shelf> iterator = allShelves.iterator();
+	System.out.println("O produto foi removido das seguintes prateleiras: ");
+	while (iterator.hasNext()) {
+		Shelf shelf = (Shelf) iterator.next();
+		if (shelf.getProductId() == id) {
+			shelf.setProductId(0);
+			System.out.println(shelf);
+			}
+	}
+	
 	}
 
 }
