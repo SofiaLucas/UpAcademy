@@ -48,6 +48,12 @@ public abstract class EntityRepository<T extends Entity> {
 		myMap.replace(entity.getId(), entity);
 
 	}
+	
+	
+	public long size() {
+		return myMap.size();
+	}
+
 //	public void printAll() {
 //		Iterator<T> TIterator = getAll().iterator();
 //

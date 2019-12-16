@@ -62,7 +62,7 @@ public class ScannerUtils {
 //		
 		int value;
 		do {
-			String myMsg = msg + min + " and " + max;
+			String myMsg = msg + "(" + min + " - " + max + ")";
 			value = getInt(myMsg);
 		} while (value < min || value > max);
 		return value;
@@ -81,7 +81,7 @@ public class ScannerUtils {
 		return lineSc.nextFloat();
 	}
 	
-	public float getFloat(String msg) { // variavel com o mesmo nome, mas é outra variavel
+	public float getFloat(String msg) { 
 		boolean valid = false;
 		float result = 0;
 		do {
@@ -126,6 +126,22 @@ public class ScannerUtils {
 			return result;
 	}
 		
+		
+		public long getValidLong(String msg, long[] iva) {
+			while (true) {
+				int value = getInt(msg);
+				boolean check = false;
+				for (int i = 0; i < iva.length; i++) {
+					if (value == iva[i]) {
+						check = true;
+						return value;
+					}
+				}
+				if (check == false) {
+					System.out.println("Select a valid option" + iva);
+				}
+			}
+		}
 		public long getValidLong(String msg, long min, long max) {
 			long value;
 			do {
