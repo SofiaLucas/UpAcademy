@@ -1,15 +1,23 @@
 package io.altar.jseproject.test;
 
-import io.altar.jseproject.model.Product;
-import io.altar.jseproject.textinterface.TextInterface;
+//import io.altar.jseproject.model.Product;
+//import io.altar.jseproject.textinterface.TextInterface;
+import io.altar.jseproject.textinterface.state.TextInterfaceState;
+
 
 public class TextInterfaceTest {
 
 	public static void main(String[] args) {
 		
-		TextInterface ti = new TextInterface();
+		TextInterfaceState sm = new TextInterfaceState();
+		sm.start();
+
 		
-		ti.showMainMenu();
+		
+		
+//		TextInterface ti = new TextInterface();
+//		
+//		ti.showMainMenu();
 		
 		
 //		Product teste = new Product();

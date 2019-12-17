@@ -20,8 +20,8 @@ public class TextInterface {
 	ShelfRepository shelvesDataBase = ShelfRepository.getInstance();
 
 	public void showMainMenu() {
-		System.out.println("\n Por favor selecione uma das seguintes opcoes:\n" + "\t 1) Listar produtos\n"
-				+ "\t 2) Listar prateleiras\n" + "\t 3) Sair");
+//		System.out.println("\n Por favor selecione uma das seguintes opcoes:\n" + "\t 1) Listar produtos\n"
+//				+ "\t 2) Listar prateleiras\n" + "\t 3) Sair");
 
 		int number = sc.getValidInt("Seleccione uma opcao ", 1, 3);
 
@@ -40,13 +40,12 @@ public class TextInterface {
 
 	public void showProductsMenu() {
 		System.out.println("Seleccionou a opcao 1) 'Listar produtos'; Estes sao os produtos atualmente existentes: \n");
-		// Os campos a apresentar s�o � sua escolha, sendo apenas o campo ID
-		// origat�rio.
+		// Os campos a apresentar s�o � sua escolha, sendo apenas o campo ID origat�rio.
 		System.out.println(productsDataBase.getAll());
 
-		System.out.println("\n Por favor selecione uma das seguintes opcoes:\n" + "\t 1) Criar novo produto\n"
-				+ "\t 2) Editar um produto existente\n" + "\t 3) Consultar o detalhe de um produto\n"
-				+ "\t 4) Remover um produto\n" + "\t 5) Voltar ao ecra anterior (Menu inicial)");
+//		System.out.println("\n Por favor selecione uma das seguintes opcoes:\n" + "\t 1) Criar novo produto\n"
+//				+ "\t 2) Editar um produto existente\n" + "\t 3) Consultar o detalhe de um produto\n"
+//				+ "\t 4) Remover um produto\n" + "\t 5) Voltar ao ecra anterior (Menu inicial)");
 
 		int number = sc.getValidInt("Seleccione uma opcao ", 1, 5);
 
@@ -77,9 +76,9 @@ public class TextInterface {
 		System.out.println(
 				"Seleccionou a opcao 2) 'Listar prateleiras'; Estes sao as prateleiras atualmente existentes: \n");
 		System.out.println(shelvesDataBase.getAll());
-		System.out.println("\n Por favor selecione uma das seguintes opcoes:\n" + "1) Criar nova prateleira\n"
-				+ "2) Editar um prateleira existente\n" + "3) Consultar o detalhe de uma prateleira\n"
-				+ "4) Remover uma prateleira\n" + "5) Voltar ao ecrã anterior");
+//		System.out.println("\n Por favor selecione uma das seguintes opcoes:\n" + "1) Criar nova prateleira\n"
+//				+ "2) Editar um prateleira existente\n" + "3) Consultar o detalhe de uma prateleira\n"
+//				+ "4) Remover uma prateleira\n" + "5) Voltar ao ecrã anterior");
 
 		int number = sc.getValidInt("Seleccione uma opcao ", 1, 5);
 
@@ -268,7 +267,7 @@ public class TextInterface {
 		}
 
 		if (emptyShelvesIdsArr.length == 0) {
-			System.out.println("Nao ha mais prateleiras disponiveis");
+			System.out.println("Nao ha prateleiras disponiveis");
 			return -1;
 		} else {
 			System.out.println("Selecione o id da prateleira onde pretende inserir o produto");
