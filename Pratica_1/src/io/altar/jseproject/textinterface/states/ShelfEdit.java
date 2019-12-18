@@ -3,7 +3,7 @@ package io.altar.jseproject.textinterface.states;
 import java.util.Arrays;
 
 import io.altar.jseproject.model.Shelf;
-import repositories.EntityRepository;
+import io.altar.jseproject.repositories.EntityRepository;
 
 public class ShelfEdit extends State {
 
@@ -57,10 +57,14 @@ public class ShelfEdit extends State {
 		int number = sc.getValidInt("Select a number between ", 1, 3);
 		switch (number) {
 		case 1:
+			int currentCapacity = shelfToEdit.getCapacity();
+			System.out.println("Capacidade atual:" + currentCapacity);
 			int newCapacity = sc.getInt("Introduza a nova capacidade");
 			shelfToEdit.setCapacity(newCapacity);
 			break;
 		case 2:
+			float currentPrice = shelfToEdit.getDailyPrice();
+			System.out.println("Preco atual:" + currentPrice);
 			float newPrice = sc.getFloat("Introduza o novo preco diario");
 			shelfToEdit.setDailyPrice(newPrice);
 			break;

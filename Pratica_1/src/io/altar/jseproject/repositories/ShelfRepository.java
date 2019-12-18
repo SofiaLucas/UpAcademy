@@ -1,4 +1,4 @@
-package repositories;
+package io.altar.jseproject.repositories;
 
 import io.altar.jseproject.model.Shelf;
 

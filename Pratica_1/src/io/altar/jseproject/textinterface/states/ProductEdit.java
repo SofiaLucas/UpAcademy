@@ -8,7 +8,7 @@ import java.util.List;
 
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.model.Shelf;
-import repositories.EntityRepository;
+import io.altar.jseproject.repositories.EntityRepository;
 
 public class ProductEdit extends State {
 
@@ -47,24 +47,32 @@ public class ProductEdit extends State {
 	public void editProductDetails(Product productToEdit) {
 
 		System.out.println("\n Por favor selecione o que pretende editar:\n" + "1) Colocar o produto numa prateleira\n"
-				+ "2) Editar o desconto\n" + "3) Editar o Iva\n" + "4) Editar o pvp\n");
+				+ "2) Editar o desconto\n" + "3) Editar o Iva\n" + "4) Editar o pvp");
 
 		int number = sc.getValidInt("Select a number between ", 1, 4);
 		switch (number) {
+		
+		//Fazer: Se o utilizador apenas pressionar <Enter> o valor anterior é mantido na entidade
 		case 1:
 			addProductToShelf(productToEdit);
 
 			break;
 		case 2:
+			float currentDiscount= productToEdit.getDiscount();
+			System.out.println("Desconto atual:" + currentDiscount);
 			int newDiscount = sc.getValidInt("Introduza o desconto", 0, 100);
 			productToEdit.setDiscount(newDiscount);
 			break;
 		case 3:
+			int currentIva = productToEdit.getIva();
+			System.out.println("Iva atual:" + currentIva);
 			int[] ivaOptions = { 23, 13, 6 };
 			int newIva = sc.getValidInt("Introduza o Iva", ivaOptions);
 			productToEdit.setIva(newIva);
 			break;
 		case 4:
+			float currentPvp = productToEdit.getPvp();
+			System.out.println("Pvp atual:" + currentPvp);
 			float newPvp = sc.getFloat("Introduza o pvp");
 			productToEdit.setPvp(newPvp);
 			break;

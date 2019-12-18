@@ -8,7 +8,7 @@ import java.util.List;
 
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.model.Shelf;
-import repositories.EntityRepository;
+import io.altar.jseproject.repositories.EntityRepository;
 
 public class ShelfRemove extends State {
 
@@ -24,7 +24,7 @@ public class ShelfRemove extends State {
 					
 			
 
-			/////////////////////////////TESTAR!!!!
+			///////verifica se ha um produto na shelf removida:
 			if (shelfToRemove.getProductId() != 0) {
 				long productIdInShelf = shelfToRemove.getProductId();		
 				Product productInShelf = productsDataBase.getbyId(productIdInShelf);
@@ -47,15 +47,13 @@ public class ShelfRemove extends State {
 				productsDataBase.edit(productInShelf);
 				
 				
-				
-				
 				///////////////
 				
 				
 				
 				
 
-				if (!shelvesDataBase.isEmpty()) {
+				if (!shelvesDataBase.isEmpty()&&selectEmptyShelvesIds()!=-1) {
 
 					System.out.println(
 							"\n Existem prateleiras disponiveis. Pretende adicionar o produto a uma nova prateleira?\n"
@@ -131,7 +129,7 @@ public class ShelfRemove extends State {
 		}
 
 		if (emptyShelvesIdsArr.length == 0) {
-			System.out.println("Nao ha prateleiras disponiveis");
+			System.out.println("Nao ha prateleiras vazias");
 			return -1;
 		} else {
 			System.out.println("Selecione o id da prateleira onde pretende inserir o produto");

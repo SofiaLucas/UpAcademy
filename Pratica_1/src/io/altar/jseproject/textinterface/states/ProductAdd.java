@@ -15,12 +15,13 @@ public class ProductAdd extends State{
 			int iva = sc.getValidInt("Introduza o Iva ", ivaOptions);
 			float pvp = sc.getFloat("Introduza o pvp ");
 			Product newProd = new Product(discount, iva, pvp);
+			//productBusiness.create(newProd);
 			productsDataBase.create(newProd);
 			System.out.println("Este foi o produto criado:");
 			System.out.println(newProd);
 
 			System.out
-					.println("Pretende criar mais algum produto?\n" + "1) Sim\n" + "2) Nao (volta ao menu dos produtos)\n");
+					.println("\nPretende criar mais algum produto?\n" + "1) Sim\n" + "2) Nao (volta ao menu dos produtos)");
 			number = sc.getValidInt("", 1, 2);
 		} while (number != 2);
 

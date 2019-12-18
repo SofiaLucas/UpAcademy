@@ -3,7 +3,7 @@ package io.altar.jseproject.textinterface.states;
 import java.util.Arrays;
 
 import io.altar.jseproject.model.Product;
-import repositories.EntityRepository;
+import io.altar.jseproject.repositories.EntityRepository;
 
 public class ProductConsult extends State {
 
@@ -17,11 +17,10 @@ public class ProductConsult extends State {
 			System.out.println(productToConsult);
 
 			System.out.println(
-					"Pretende consultar mais algum produto?" + "1) Sim\n" + "2) Nao (volta ao menu dos produtos)\n");
+					"Pretende consultar mais algum produto?\n" + "1) Sim\n" + "2) Nao (volta ao menu dos produtos)\n");
 			number = sc.getValidInt("", 1, 2);
 		} while (number != 2);
-
-		
+	
 		return 1;
 	}
 

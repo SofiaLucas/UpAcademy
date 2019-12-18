@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.model.Shelf;
-import repositories.EntityRepository;
+import io.altar.jseproject.repositories.EntityRepository;
 
 public class ProductRemove extends State {
 
@@ -22,19 +22,17 @@ public class ProductRemove extends State {
 
 			if (productsDataBase.isEmpty() == false) {
 				System.out.println(
-						"Pretende remover mais algum produto?" + "1) Sim\n" + "2) Nao (volta ao menu dos produtos)\n");
+						"Pretende remover mais algum produto?\n" + "1) Sim\n" + "2) Nao (volta ao menu dos produtos)");
 				number = sc.getValidInt("Seleccione um numero entre ", 1, 2);
 			} else {
 				System.out.println("Nao ha mais produtos para remover");
 			}
 
 		} while (number != 2 && productsDataBase.isEmpty() == false);
-
-		
+	
 		return 1;
 	}
 
-	
 	
 	public long selectId(EntityRepository dataBase) {
 		Object[] objectArray = dataBase.getAllIds().toArray();
@@ -47,8 +45,7 @@ public class ProductRemove extends State {
 		return selectedId;
 
 	}
-	
-	
+		
 	public void removeProductFromShelf(long id) {
 		Collection<Shelf> allShelves = shelvesDataBase.getAll();
 		Iterator<Shelf> iterator = allShelves.iterator();

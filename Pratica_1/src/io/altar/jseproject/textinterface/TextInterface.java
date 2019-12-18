@@ -9,10 +9,10 @@ import java.util.List;
 import io.altar.jseproject.model.Entity;
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.model.Shelf;
+import io.altar.jseproject.repositories.EntityRepository;
+import io.altar.jseproject.repositories.ProductRepository;
+import io.altar.jseproject.repositories.ShelfRepository;
 import io.altar.jseproject.textinterface.ScannerUtils.ScannerUtils;
-import repositories.EntityRepository;
-import repositories.ProductRepository;
-import repositories.ShelfRepository;
 
 public class TextInterface {
 	ScannerUtils sc = new ScannerUtils();

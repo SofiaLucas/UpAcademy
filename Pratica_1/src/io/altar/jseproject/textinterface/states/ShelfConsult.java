@@ -3,7 +3,7 @@ package io.altar.jseproject.textinterface.states;
 import java.util.Arrays;
 
 import io.altar.jseproject.model.Shelf;
-import repositories.EntityRepository;
+import io.altar.jseproject.repositories.EntityRepository;
 
 public class ShelfConsult extends State {
 
@@ -16,7 +16,7 @@ public class ShelfConsult extends State {
 			Shelf shelfToConsult = shelvesDataBase.getbyId(idToConsult);
 			System.out.println(shelfToConsult);
 			System.out.println(
-					"Pretende consultar mais alguma prateleira?" + "1) Sim\n" + "2) Nao (volta ao menu das prateleiras)\n");
+					"Pretende consultar mais alguma prateleira?\n" + "1) Sim\n" + "2) Nao (volta ao menu das prateleiras)");
 			number = sc.getValidInt("", 1, 2);
 		} while (number != 2);
 
