@@ -14,36 +14,42 @@ public class ProductEdit extends State {
 
 	@Override
 	public int run() {
-		System.out.println("Selecione o id do produto que pretende editar");
-		long idSelected = selectId(productsDataBase); // metodo abaixo
-		Product productToEdit = productsDataBase.getbyId(idSelected);
 
-		editProductDetails(productToEdit);
-		int number = 0;
-		do {
-			System.out.println("Pretende alterar mais detalhes deste produto?\n" + "1) Sim\n"
-					+ "2) Nao (volta ao menu dos produtos)\n");
-			number = sc.getValidInt("Seleccione um numero entre ", 1, 2);
-			switch (number) {
-			case 1:
-				editProductDetails(productToEdit);
-				break;
-			case 2:
-				break;
-			}
-		} while (number != 2);
+		long[] allIdsArr = productsDataBase.getAllIds();
 
-		productsDataBase.edit(productToEdit);
-		System.out.println("O produto foi editado:");
-		System.out.println(productToEdit);
-		
-		
+		if (allIdsArr.length != 0) {
+
+			System.out.println("Selecione o id do produto que pretende editar");
+			long selectedId = sc.getValidLong("Ids disponiveis:" + Arrays.toString(allIdsArr), allIdsArr);
+
+			Product productToEdit = productsDataBase.getbyId(selectedId);
+
+			editProductDetails(productToEdit);
+			int number = 0;
+
+			do {
+				System.out.println("Pretende alterar mais detalhes deste produto?\n" + "1) Sim\n"
+						+ "2) Nao (volta ao menu dos produtos)\n");
+				number = sc.getValidInt("Seleccione um numero entre ", 1, 2);
+				switch (number) {
+				case 1:
+					editProductDetails(productToEdit);
+					break;
+				case 2:
+					break;
+				}
+			} while (number != 2);
+
+			productsDataBase.edit(productToEdit);
+			System.out.println("O produto foi editado:");
+			System.out.println(productToEdit);
+		} else {
+			System.out.println("Nao existem produtos.\n");
+		}
+
 		return 1;
 	}
-	
-	
-	
-	
+
 	public void editProductDetails(Product productToEdit) {
 
 		System.out.println("\n Por favor selecione o que pretende editar:\n" + "1) Colocar o produto numa prateleira\n"
@@ -51,21 +57,35 @@ public class ProductEdit extends State {
 
 		int number = sc.getValidInt("Select a number between ", 1, 4);
 		switch (number) {
-		
-		//Fazer: Se o utilizador apenas pressionar <Enter> o valor anterior é mantido na entidade
-		case 1:
-			addProductToShelf(productToEdit);
 
+		// Fazer: Se o utilizador apenas pressionar <Enter> o valor anterior é mantido
+		// na entidade
+		case 1:
+			long [] emptyShelvesIdsArr = selectEmptyShelves();
+			
+			// tentar que o utilizador possa escolher varios ids ao mesmo tempo
+			
+			if (emptyShelvesIdsArr.length == 0) {
+				System.out.println("Nao ha prateleiras disponiveis");
+				
+			} else {
+				System.out.println("Selecione o id da prateleira onde pretende inserir o produto");
+				long selectedId = sc.getValidLong("Id das prateleiras disponiveis: " + Arrays.toString(emptyShelvesIdsArr),
+						emptyShelvesIdsArr);
+				
+			addProductToShelf(productToEdit, selectedId);
+			System.out.println("O produto foi adicionado a prateleira");
+			}
 			break;
 		case 2:
-			float currentDiscount= productToEdit.getDiscount();
+			float currentDiscount = productToEdit.getDiscount();
 			System.out.println("Desconto atual:" + currentDiscount);
 			int newDiscount = sc.getValidInt("Introduza o desconto", 0, 100);
-			
-			if (newDiscount!=-1) {
+
+			if (newDiscount != -1) {
 				productToEdit.setDiscount(newDiscount);
 			}
-			
+
 			break;
 		case 3:
 			int currentIva = productToEdit.getIva();
@@ -80,29 +100,14 @@ public class ProductEdit extends State {
 			float newPvp = sc.getFloat("Introduza o pvp");
 			productToEdit.setPvp(newPvp);
 			break;
-		
 		}
-
-}
-	
-	public long selectId(EntityRepository dataBase) {
-		Object[] objectArray = dataBase.getAllIds().toArray();
-		long[] idArr = new long[objectArray.length];
-		for (int i = 0; i < objectArray.length; i++) {
-			idArr[i] = (long) objectArray[i];
-		}
-
-		long selectedId = sc.getValidLong("Ids disponiveis:" + Arrays.toString(idArr), idArr);
-		return selectedId;
-
 	}
-	
-	public void addProductToShelf(Product productToAdd) {
-		long shelfIdSelected = selectEmptyShelvesIds();
 
-		// tentar que o utilizador possa escolher varios ids ao mesmo tempo
-		if (shelfIdSelected != -1) {
-			Shelf shelfSelected = shelvesDataBase.getbyId(shelfIdSelected);
+	
+	
+	public void addProductToShelf(Product productToAdd, long selectedId) {
+					
+			Shelf shelfSelected = shelvesDataBase.getbyId(selectedId);
 			shelfSelected.setProductId(productToAdd.getId());
 			productToAdd.addShelfId(shelfSelected.getId());
 
@@ -110,9 +115,9 @@ public class ProductEdit extends State {
 			productsDataBase.edit(productToAdd);
 
 		}
-	}
 	
-	public long selectEmptyShelvesIds() {
+
+	public long[] selectEmptyShelves() {
 
 		Collection<Shelf> allShelves = shelvesDataBase.getAll();
 		Iterator<Shelf> iterator = allShelves.iterator();
@@ -130,17 +135,8 @@ public class ProductEdit extends State {
 		for (final Long value : emptyShelvesIds) {
 			emptyShelvesIdsArr[index++] = value;
 		}
+				return emptyShelvesIdsArr;
 
-		if (emptyShelvesIdsArr.length == 0) {
-			System.out.println("Nao ha prateleiras disponiveis");
-			return -1;
-		} else {
-			System.out.println("Selecione o id da prateleira onde pretende inserir o produto");
-			long selectedId = sc.getValidLong("Id das prateleiras disponiveis: " + Arrays.toString(emptyShelvesIdsArr),
-					emptyShelvesIdsArr);
-			return selectedId;
-		}
 	}
-	
-	
+
 }

@@ -9,46 +9,42 @@ public class ShelfEdit extends State {
 
 	@Override
 	public int run() {
-		System.out.println("Selecione o id da prateleira que pretende editar");
-		long idSelected = selectId(shelvesDataBase);
-		Shelf shelfToEdit = shelvesDataBase.getbyId(idSelected);
-
-		editShelfDetails(shelfToEdit);
 		int number = 0;
+		long[] allIdsArr = shelvesDataBase.getAllIds();
+		if (allIdsArr.length != 0) {
 		do {
-			System.out.println("Pretende alterar mais detalhes desta prateleira?\n" + "1) Sim\n"
-					+ "2) Nao (volta ao menu inicial)\n");
-			number = sc.getValidInt("Seleccione um numero entre ", 1, 2);
-			switch (number) {
-			case 1:
-				editShelfDetails(shelfToEdit);
-				break;
-			case 2:
-				break;
-			}
-		} while (number != 2);
+							
+			System.out.println("Selecione o id da prateleira que pretende editar");
 
-		shelvesDataBase.edit(shelfToEdit);
+			long idSelected = sc.getValidLong("Ids disponiveis:" + Arrays.toString(allIdsArr), allIdsArr);
+			Shelf shelfToEdit = shelvesDataBase.getbyId(idSelected);
 
-		System.out.println("A prateleira foi editada:");
-		System.out.println(shelfToEdit);
+			editShelfDetails(shelfToEdit);
+			shelvesDataBase.edit(shelfToEdit);
+
+			System.out.println("A prateleira foi editada:");
+			System.out.println(shelfToEdit);
+			
+						
+				System.out.println("Pretende alterar mais detalhes desta prateleira?\n" + "1) Sim\n"
+						+ "2) Nao (volta ao menu inicial)\n");
+				number = sc.getValidInt("Seleccione um numero entre ", 1, 2);
+				switch (number) {
+				case 1:
+					editShelfDetails(shelfToEdit);
+					break;
+				case 2:
+					break;
+				}
+		
+		
+			} while (number != 2);
+	}else {System.out.println("Nao existem prateleiras.\n");}
+			
 		
 		return 1;
 	}
 
-	
-	public long selectId(EntityRepository dataBase) {
-		Object[] objectArray = dataBase.getAllIds().toArray();
-		long[] idArr = new long[objectArray.length];
-		for (int i = 0; i < objectArray.length; i++) {
-			idArr[i] = (long) objectArray[i];
-		}
-
-		long selectedId = sc.getValidLong("Ids disponiveis:" + Arrays.toString(idArr), idArr);
-		return selectedId;
-
-	}
-	
 	public void editShelfDetails(Shelf shelfToEdit) {
 
 		System.out.println("\n Por favor selecione o que pretende editar:\n" + "1) Capacidade\n" + "2) Preco diario\n"
@@ -69,10 +65,10 @@ public class ShelfEdit extends State {
 			shelfToEdit.setDailyPrice(newPrice);
 			break;
 		case 3:
-			
+
 			break;
 
 		}
-}
-	
+	}
+
 }

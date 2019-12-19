@@ -14,42 +14,40 @@ public class ProductRemove extends State {
 	public int run() {
 		int number = 0;
 		do {
-			System.out.println("Selecione o id do produto que pretende remover");
-			long idToRemove = selectId(productsDataBase);
-			Product productToRemove = productsDataBase.getbyId(idToRemove);
-			productsDataBase.remove(productToRemove);
-			removeProductFromShelf(idToRemove);
+			long[] allIdsArr = productsDataBase.getAllIds();
 
-			if (productsDataBase.isEmpty() == false) {
-				System.out.println(
-						"Pretende remover mais algum produto?\n" + "1) Sim\n" + "2) Nao (volta ao menu dos produtos)");
-				number = sc.getValidInt("Seleccione um numero entre ", 1, 2);
-			} else {
-				System.out.println("Nao ha mais produtos para remover");
+			if (allIdsArr.length != 0) {
+						
+				System.out.println("Selecione o id do produto que pretende remover");
+				long idToRemove = sc.getValidLong("Ids disponiveis:" + Arrays.toString(allIdsArr), allIdsArr);
+
+				Product productToRemove = productsDataBase.getbyId(idToRemove);
+				productsDataBase.remove(productToRemove);
+
+				if (!productToRemove.getShelvesIds().isEmpty()) {
+					removeProductFromShelf(idToRemove);
+					System.out.println("O produto foi removido das seguintes prateleiras: ");
+					//fazer return
+				}
+
+				if (productsDataBase.isEmpty() == false) {
+					System.out.println("Pretende remover mais algum produto?\n" + "1) Sim\n"
+							+ "2) Nao (volta ao menu dos produtos)");
+					number = sc.getValidInt("Seleccione um numero entre ", 1, 2);
+				} else {
+					System.out.println("Nao ha mais produtos para remover");
+				}
 			}
-
+			else {System.out.println("Nao existem produtos.\n");}
 		} while (number != 2 && productsDataBase.isEmpty() == false);
-	
+		
 		return 1;
 	}
 
-	
-	public long selectId(EntityRepository dataBase) {
-		Object[] objectArray = dataBase.getAllIds().toArray();
-		long[] idArr = new long[objectArray.length];
-		for (int i = 0; i < objectArray.length; i++) {
-			idArr[i] = (long) objectArray[i];
-		}
-
-		long selectedId = sc.getValidLong("Ids disponiveis:" + Arrays.toString(idArr), idArr);
-		return selectedId;
-
-	}
-		
 	public void removeProductFromShelf(long id) {
 		Collection<Shelf> allShelves = shelvesDataBase.getAll();
 		Iterator<Shelf> iterator = allShelves.iterator();
-		System.out.println("O produto foi removido das seguintes prateleiras: ");
+		//
 		while (iterator.hasNext()) {
 			Shelf shelf = (Shelf) iterator.next();
 			if (shelf.getProductId() == id) {
@@ -57,6 +55,5 @@ public class ProductRemove extends State {
 				System.out.println(shelf);
 			}
 		}
-
 	}
 }

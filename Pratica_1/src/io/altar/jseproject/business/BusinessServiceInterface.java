@@ -8,17 +8,17 @@ public interface BusinessServiceInterface<T extends Entity> {
 
 	void create(T entity);
 
-	void remove(T entity);
+	void remove(T entity); //
 
-	void edit(T entity);
+	void edit(T entity); //
 
 	Collection<T> getAll();
 	
 	T getbyId(long id);
 
-	Collection<Long> getAllIds();
+	 long [] getAllIds();
 	
-	void isEmpty();
+	boolean isEmpty();
 	
 	void size();
 	

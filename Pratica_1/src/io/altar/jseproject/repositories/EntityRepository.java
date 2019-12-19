@@ -40,10 +40,19 @@ public abstract class EntityRepository<T extends Entity> {
 		return myMap.get(selectedId);
 	}
 
-	public Collection<Long> getAllIds() {
-		return myMap.keySet();
+	public long[] getAllIds() {
+		//return myMap.keySet();
+		
+		Object[] objectArray = myMap.keySet().toArray();
+		long[] idArr = new long[objectArray.length];
+		for (int i = 0; i < objectArray.length; i++) {
+			idArr[i] = (long) objectArray[i];
+		}
+		return idArr;
 	}
 
+	
+	
 	public void edit(T entity) {
 		myMap.replace(entity.getId(), entity);
 

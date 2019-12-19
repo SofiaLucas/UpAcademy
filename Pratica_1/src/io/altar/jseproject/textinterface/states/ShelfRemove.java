@@ -16,57 +16,42 @@ public class ShelfRemove extends State {
 	public int run() {
 		int number = 0;
 		do {
-			System.out.println("Selecione o id da prateleira que pretende remover");
-			long idToRemove = selectId(shelvesDataBase); // id da shelf
+			
+			long[] allIdsArr = shelvesDataBase.getAllIds();
+			
+			if (allIdsArr.length != 0) {
+				
+		
+				System.out.println("Selecione o id da prateleira que pretende remover");
+			long idToRemove = sc.getValidLong("Ids disponiveis:" + Arrays.toString(allIdsArr), allIdsArr);
 			Shelf shelfToRemove = shelvesDataBase.getbyId(idToRemove);
 			shelvesDataBase.remove(shelfToRemove);
-			
-					
-			
 
-			///////verifica se ha um produto na shelf removida:
-			if (shelfToRemove.getProductId() != 0) {
-				long productIdInShelf = shelfToRemove.getProductId();		
-				Product productInShelf = productsDataBase.getbyId(productIdInShelf);
-				
-				System.out.println("O seguinte produto foi removido da prateleira:\n" + productInShelf);	
-				
-				//remover o id da shelf nos produtos (shelvesIds):
-					
-				List<Long> shelvesIdsInProduct = productInShelf.getShelvesIds();
-				
-				for (int i = 0; i < shelvesIdsInProduct.size(); i++) {
-					
-					if(shelvesIdsInProduct.get(i)==productIdInShelf) {
-						shelvesIdsInProduct.remove(i);
-						break;
-									
-					}
-					}
-				
-				productsDataBase.edit(productInShelf);
-				
-				
-				///////////////
-				
-				
-				
-				
+			/////// verifica se ha um produto na shelf removida:
+			long productIdInShelf = shelfToRemove.getProductId();
+			Product productInShelf = productsDataBase.getbyId(productIdInShelf);
+			if (productIdInShelf != 0) {
 
-				if (!shelvesDataBase.isEmpty()&&selectEmptyShelvesIds()!=-1) {
+				System.out.println("O seguinte produto foi removido da prateleira:\n" + productInShelf);
 
-					System.out.println(
-							"\n Existem prateleiras disponiveis. Pretende adicionar o produto a uma nova prateleira?\n"
-									+ "1) Sim\n" + "2) Nao");
-					int number2 = sc.getValidInt("Seleccione uma opcao ", 1, 2);
+				updateshelvesIdsInProduct(productInShelf, productIdInShelf); // remover o id da shelf nos produtos
+																				// (shelvesIds):
+			}
 
-					switch (number2) {
-					case 1:
-						addProductToShelf(productInShelf);
-						break;
-					}
+			if (!shelvesDataBase.isEmpty() && selectEmptyShelvesIds() != -1) {
+
+				System.out.println(
+						"\n Existem prateleiras disponiveis. Pretende adicionar o produto a uma nova prateleira?\n"
+								+ "1) Sim\n" + "2) Nao");
+				int number2 = sc.getValidInt("Seleccione uma opcao ", 1, 2);
+
+				switch (number2) {
+				case 1:
+					addProductToShelf(productInShelf);
+					break;
 				}
 			}
+
 			///////////////////////
 
 			if (shelvesDataBase.isEmpty() == false) {
@@ -76,22 +61,13 @@ public class ShelfRemove extends State {
 			} else {
 				System.out.println("Nao ha mais prateleiras para remover");
 			}
-
+			}
+			else {System.out.println("Nao existem prateleiras.");}
 		} while (number != 2 && shelvesDataBase.isEmpty() == false);
-
+		
+		
+		
 		return 1;
-	}
-
-	public long selectId(EntityRepository dataBase) {
-		Object[] objectArray = dataBase.getAllIds().toArray();
-		long[] idArr = new long[objectArray.length];
-		for (int i = 0; i < objectArray.length; i++) {
-			idArr[i] = (long) objectArray[i];
-		}
-
-		long selectedId = sc.getValidLong("Ids disponiveis:" + Arrays.toString(idArr), idArr);
-		return selectedId;
-
 	}
 
 	public void addProductToShelf(Product productToAdd) {
@@ -139,4 +115,20 @@ public class ShelfRemove extends State {
 		}
 	}
 
+
+	public void updateshelvesIdsInProduct(Product productInShelf, long productIdInShelf) {
+
+		List<Long> shelvesIdsInProduct = productInShelf.getShelvesIds();
+
+		for (int i = 0; i < shelvesIdsInProduct.size(); i++) {
+
+			if (shelvesIdsInProduct.get(i) == productIdInShelf) {
+				shelvesIdsInProduct.remove(i);
+				break;
+
+			}
+		}
+
+		productsDataBase.edit(productInShelf);
+	}
 }

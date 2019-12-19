@@ -10,30 +10,26 @@ public class ShelfConsult extends State {
 	@Override
 	public int run() {
 		int number = 0;
-		do {
-			System.out.println("Selecione o id da prateleira que pretende consultar");
-			long idToConsult = selectId(shelvesDataBase);
-			Shelf shelfToConsult = shelvesDataBase.getbyId(idToConsult);
-			System.out.println(shelfToConsult);
-			System.out.println(
-					"Pretende consultar mais alguma prateleira?\n" + "1) Sim\n" + "2) Nao (volta ao menu das prateleiras)");
-			number = sc.getValidInt("", 1, 2);
-		} while (number != 2);
+		long[] allIdsArr = shelvesDataBase.getAllIds();
+		if (allIdsArr.length != 0) {
 
-		
-		return 1;
-	}
-	
-	public long selectId(EntityRepository dataBase) {
-		Object[] objectArray = dataBase.getAllIds().toArray();
-		long[] idArr = new long[objectArray.length];
-		for (int i = 0; i < objectArray.length; i++) {
-			idArr[i] = (long) objectArray[i];
+			do {
+				System.out.println("Selecione o id da prateleira que pretende consultar");
+
+				long idToConsult = sc.getValidLong("Ids disponiveis:" + Arrays.toString(allIdsArr), allIdsArr);
+
+				Shelf shelfToConsult = shelvesDataBase.getbyId(idToConsult);
+				System.out.println(shelfToConsult);
+				System.out.println("Pretende consultar mais alguma prateleira?\n" + "1) Sim\n"
+						+ "2) Nao (volta ao menu das prateleiras)");
+				number = sc.getValidInt("", 1, 2);
+
+			} while (number != 2);
+		} else {
+			System.out.println("Nao existem prateleiras.\n");
 		}
 
-		long selectedId = sc.getValidLong("Ids disponiveis:" + Arrays.toString(idArr), idArr);
-		return selectedId;
-
+		return 1;
 	}
 
 }
