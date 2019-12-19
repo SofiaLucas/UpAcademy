@@ -61,7 +61,11 @@ public class ProductEdit extends State {
 			float currentDiscount= productToEdit.getDiscount();
 			System.out.println("Desconto atual:" + currentDiscount);
 			int newDiscount = sc.getValidInt("Introduza o desconto", 0, 100);
-			productToEdit.setDiscount(newDiscount);
+			
+			if (newDiscount!=-1) {
+				productToEdit.setDiscount(newDiscount);
+			}
+			
 			break;
 		case 3:
 			int currentIva = productToEdit.getIva();

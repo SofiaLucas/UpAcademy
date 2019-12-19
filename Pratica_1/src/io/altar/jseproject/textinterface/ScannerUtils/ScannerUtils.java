@@ -60,15 +60,19 @@ public class ScannerUtils {
 //		else {
 //			return value;
 //		}
-//		
-		int value;
+	int value;
+	
+//	if(sc.nextLine().isEmpty()) {
+//		return -1;
+//	}
 		do {
 			String myMsg = msg + "(" + min + " - " + max + ")";
+			
 			value = getInt(myMsg);
 		} while (value < min || value > max);
 		return value;
 	}
-
+	
 	//***********************************
 	//				 FLOATS!!
 	// **********************************
