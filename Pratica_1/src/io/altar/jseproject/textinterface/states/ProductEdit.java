@@ -1,14 +1,10 @@
 package io.altar.jseproject.textinterface.states;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
 import io.altar.jseproject.model.Product;
-import io.altar.jseproject.model.Shelf;
-import io.altar.jseproject.repositories.EntityRepository;
+
 
 public class ProductEdit extends State {
 
@@ -58,10 +54,9 @@ public class ProductEdit extends State {
 		int number = sc.getValidInt("Select a number between ", 1, 4);
 		switch (number) {
 
-		// Fazer: Se o utilizador apenas pressionar <Enter> o valor anterior é mantido
-		// na entidade
+		// Fazer: Se o utilizador apenas pressionar <Enter> o valor anterior é mantido na entidade
 		case 1:
-			long [] emptyShelvesIdsArr = selectEmptyShelves();
+			long [] emptyShelvesIdsArr = shelvesDataBase.selectEmptyShelves();
 			
 			// tentar que o utilizador possa escolher varios ids ao mesmo tempo
 			
@@ -73,7 +68,7 @@ public class ProductEdit extends State {
 				long selectedId = sc.getValidLong("Id das prateleiras disponiveis: " + Arrays.toString(emptyShelvesIdsArr),
 						emptyShelvesIdsArr);
 				
-			addProductToShelf(productToEdit, selectedId);
+				productsDataBase.addProductToShelf(productToEdit, selectedId);	
 			System.out.println("O produto foi adicionado a prateleira");
 			}
 			break;
@@ -105,38 +100,4 @@ public class ProductEdit extends State {
 
 	
 	
-	public void addProductToShelf(Product productToAdd, long selectedId) {
-					
-			Shelf shelfSelected = shelvesDataBase.getbyId(selectedId);
-			shelfSelected.setProductId(productToAdd.getId());
-			productToAdd.addShelfId(shelfSelected.getId());
-
-			shelvesDataBase.edit(shelfSelected);
-			productsDataBase.edit(productToAdd);
-
-		}
-	
-
-	public long[] selectEmptyShelves() {
-
-		Collection<Shelf> allShelves = shelvesDataBase.getAll();
-		Iterator<Shelf> iterator = allShelves.iterator();
-		List<Long> emptyShelvesIds = new ArrayList<Long>();
-
-		while (iterator.hasNext()) {
-			Shelf shelf = (Shelf) iterator.next();
-			if (shelf.getProductId() == 0) {
-				emptyShelvesIds.add(shelf.getId());
-			}
-		}
-
-		final long[] emptyShelvesIdsArr = new long[emptyShelvesIds.size()];
-		int index = 0;
-		for (final Long value : emptyShelvesIds) {
-			emptyShelvesIdsArr[index++] = value;
-		}
-				return emptyShelvesIdsArr;
-
-	}
-
 }

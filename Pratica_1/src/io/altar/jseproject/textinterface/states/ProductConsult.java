@@ -3,7 +3,6 @@ package io.altar.jseproject.textinterface.states;
 import java.util.Arrays;
 
 import io.altar.jseproject.model.Product;
-import io.altar.jseproject.repositories.EntityRepository;
 
 public class ProductConsult extends State {
 

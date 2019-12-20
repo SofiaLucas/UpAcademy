@@ -5,10 +5,11 @@ import java.util.HashMap;
 //import java.util.Iterator;
 import java.util.Map;
 
+import io.altar.jseproject.business.EntityRepositoryInterface;
 import io.altar.jseproject.model.Entity;
 //import io.altar.jseproject.model.Product;
 
-public abstract class EntityRepository<T extends Entity> {
+public abstract class EntityRepository<T extends Entity> {//implements EntityRepositoryInterface <Entity> {
 
 	Map<Long, T> myMap = new HashMap<Long, T>();
 	long currentId = 0;
@@ -50,8 +51,6 @@ public abstract class EntityRepository<T extends Entity> {
 		}
 		return idArr;
 	}
-
-	
 	
 	public void edit(T entity) {
 		myMap.replace(entity.getId(), entity);

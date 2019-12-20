@@ -1,12 +1,10 @@
 package io.altar.jseproject.textinterface.states;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import io.altar.jseproject.model.Product;
 import io.altar.jseproject.model.Shelf;
-import io.altar.jseproject.repositories.EntityRepository;
 
 public class ProductRemove extends State {
 
@@ -17,7 +15,7 @@ public class ProductRemove extends State {
 			long[] allIdsArr = productsDataBase.getAllIds();
 
 			if (allIdsArr.length != 0) {
-						
+
 				System.out.println("Selecione o id do produto que pretende remover");
 				long idToRemove = sc.getValidLong("Ids disponiveis:" + Arrays.toString(allIdsArr), allIdsArr);
 
@@ -25,9 +23,8 @@ public class ProductRemove extends State {
 				productsDataBase.remove(productToRemove);
 
 				if (!productToRemove.getShelvesIds().isEmpty()) {
-					removeProductFromShelf(idToRemove);
-					System.out.println("O produto foi removido das seguintes prateleiras: ");
-					//fazer return
+					List<Shelf> removedShelves = shelvesDataBase.removeProductFromShelf(idToRemove);
+					System.out.println("O produto foi removido das seguintes prateleiras: \n " + removedShelves);
 				}
 
 				if (productsDataBase.isEmpty() == false) {
@@ -37,23 +34,12 @@ public class ProductRemove extends State {
 				} else {
 					System.out.println("Nao ha mais produtos para remover");
 				}
+			} else {
+				System.out.println("Nao existem produtos.\n");
 			}
-			else {System.out.println("Nao existem produtos.\n");}
 		} while (number != 2 && productsDataBase.isEmpty() == false);
-		
+
 		return 1;
 	}
 
-	public void removeProductFromShelf(long id) {
-		Collection<Shelf> allShelves = shelvesDataBase.getAll();
-		Iterator<Shelf> iterator = allShelves.iterator();
-		//
-		while (iterator.hasNext()) {
-			Shelf shelf = (Shelf) iterator.next();
-			if (shelf.getProductId() == id) {
-				shelf.setProductId(0);
-				System.out.println(shelf);
-			}
-		}
-	}
 }

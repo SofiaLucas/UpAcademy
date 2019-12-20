@@ -3,7 +3,6 @@ package io.altar.jseproject.textinterface.states;
 import java.util.Arrays;
 
 import io.altar.jseproject.model.Shelf;
-import io.altar.jseproject.repositories.EntityRepository;
 
 public class ShelfEdit extends State {
 
@@ -21,11 +20,9 @@ public class ShelfEdit extends State {
 
 			editShelfDetails(shelfToEdit);
 			shelvesDataBase.edit(shelfToEdit);
-
 			System.out.println("A prateleira foi editada:");
 			System.out.println(shelfToEdit);
-			
-						
+									
 				System.out.println("Pretende alterar mais detalhes desta prateleira?\n" + "1) Sim\n"
 						+ "2) Nao (volta ao menu inicial)\n");
 				number = sc.getValidInt("Seleccione um numero entre ", 1, 2);
@@ -36,12 +33,10 @@ public class ShelfEdit extends State {
 				case 2:
 					break;
 				}
-		
-		
+			
 			} while (number != 2);
 	}else {System.out.println("Nao existem prateleiras.\n");}
-			
-		
+				
 		return 1;
 	}
 
