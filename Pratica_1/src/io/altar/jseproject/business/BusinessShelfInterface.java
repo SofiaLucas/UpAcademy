@@ -7,7 +7,7 @@ import io.altar.jseproject.repositories.ShelfRepository;
 
 public interface BusinessShelfInterface extends BusinessServiceInterface <Shelf> {
 	
-	static final ShelfRepository SDB = ShelfRepository.getInstance();
+	//static final ShelfRepository SDB = ShelfRepository.getInstance();
 	
 	long[] selectEmptyShelves();
 	

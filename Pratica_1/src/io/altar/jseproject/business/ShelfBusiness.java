@@ -6,58 +6,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import io.altar.jseproject.model.Shelf;
+import io.altar.jseproject.repositories.ProductRepository;
+import io.altar.jseproject.repositories.ShelfRepository;
 
-public class ShelfBusiness implements BusinessShelfInterface {
+public class ShelfBusiness extends EntityBusiness<ShelfRepository, Shelf> implements BusinessShelfInterface {
 
-	@Override
-	public void create(Shelf entity) {
-		SDB.create(entity);
-	}
-
-	@Override
-	public void remove(Shelf entity) {
-		SDB.remove(entity);
-	}
-
-	@Override
-	public void edit(Shelf entity) {
-		SDB.edit(entity);
-
-	}
-
-	@Override
-	public Collection<Shelf> getAll() {
-		return SDB.getAll();
-
-	}
-
-	@Override
-	public Shelf getbyId(long id) {
-		return SDB.getbyId(id);
-
-	}
-
-	@Override
-	public long[] getAllIds() {
-		return SDB.getAllIds();
-
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return SDB.isEmpty();
-
-	}
-
-	@Override
-	public void size() {
-		SDB.size();
-
+	public ShelfBusiness() {
+		repository = ShelfRepository.getInstance();
 	}
 
 	@Override
 	public long[] selectEmptyShelves() {
-		Collection<Shelf> allShelves = SDB.getAll();
+		Collection<Shelf> allShelves = repository.getAll();
 		Iterator<Shelf> iterator = allShelves.iterator();
 		List<Long> emptyShelvesIds = new ArrayList<Long>();
 
@@ -78,7 +38,7 @@ public class ShelfBusiness implements BusinessShelfInterface {
 
 	@Override
 	public List<Shelf> removeProductFromShelf(long id) {
-		Collection<Shelf> allShelves = SDB.getAll();
+		Collection<Shelf> allShelves = repository.getAll();
 		Iterator<Shelf> iterator = allShelves.iterator();
 		List<Shelf> removedShelves = new ArrayList<Shelf>();
 		

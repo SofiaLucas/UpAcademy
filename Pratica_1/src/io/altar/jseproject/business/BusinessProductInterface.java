@@ -6,7 +6,7 @@ import io.altar.jseproject.repositories.ProductRepository;
 
 public interface BusinessProductInterface extends BusinessServiceInterface<Product> {
 
-	static final ProductRepository PDB = ProductRepository.getInstance();
+//	static final ProductRepository PDB = ProductRepository.getInstance();
 
 	void addProductToShelf(Product productToAdd, long selectedId);
 
